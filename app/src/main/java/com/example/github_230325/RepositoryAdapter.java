@@ -70,6 +70,7 @@ public class RepositoryAdapter extends ArrayAdapter<RepositoryData> {
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(repoUrl));
                 context.startActivity(intent);
+
             }
         });
 
