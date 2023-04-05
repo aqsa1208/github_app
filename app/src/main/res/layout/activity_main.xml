@@ -6,22 +6,47 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/heading"
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_margin="20dp"
-        android:text="GitHub Search"
-        android:textColor="@color/black"
-        android:textSize="26sp" />
+        android:id="@+id/layout"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/githublogo"
+            android:layout_marginStart="20dp"/>
+
+
+        <TextView
+            android:id="@+id/heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:text="GitHub Repostories Search"
+            android:textColor="@color/black"
+            android:fontFamily="@font/hanyisentychalk"
+            android:textSize="26sp" />
+
+
+    </LinearLayout>
+
+
 
 
     <EditText
         android:id="@+id/searchEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/heading"
+        android:layout_below="@id/layout"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
@@ -39,14 +64,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/dataListView"
-        android:layout_below="@+id/searchEditText" />
+        android:layout_below="@+id/searchEditText"
+        android:background="@drawable/listview_background"/>
+
 
     <TextView
         android:id="@+id/errorMessage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="沒有搜尋到相關資料，請再試一遍！"
+        android:text="沒有搜尋到相關資料！"
         android:visibility="invisible" />
 
     <ProgressBar

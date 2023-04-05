@@ -1,11 +1,15 @@
 package com.example.github_230325;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.AsyncTaskLoader;
 import androidx.loader.content.Loader;
 
+import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.PersistableBundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -40,10 +45,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
 
+        Window window = MainActivity.this.getWindow();
+        window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.cardview_dark_background));
+
+
         loading = findViewById(R.id.loadingBar);
         errorMessage = findViewById(R.id.errorMessage);
         editText = findViewById(R.id.searchEditText);
         dataListView = findViewById(R.id.dataListView);
+
         dataListView.setEmptyView(errorMessage);
 
         adapter = new RepositoryAdapter(getApplicationContext());
@@ -60,41 +70,25 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // Do nothing
+                //makeGithubSearchQuery();
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Update the TextView with the current text in the EditText
-                //TextView textView = findViewById(R.id.statusTextView);
-                //textView.setText(s.toString());
-                makeGithubSearchQuery();
+                //makeGithubSearchQuery();
+                //dataListView.setEmptyView(errorMessage);
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 // Do nothing
+                makeGithubSearchQuery();
             }
         });
+
+
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        int currentMenuId = item.getItemId();
-//        if (currentMenuId == R.id.searchMenu) {
-//            //Should Search Using AsyncTask Class
-//            //Call AsyncTask
-//            //new RepositoryThread().execute(query);
-//            makeGithubSearchQuery();
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
 
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
@@ -110,12 +104,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             @Override
             protected void onStartLoading() {
 
+                errorMessage.setVisibility(View.INVISIBLE);
+
                 /* If no arguments were passed, we don't have a query to perform. Simply return. */
                 if (args == null) {
                     return;
                 }
 
                 loading.setVisibility(View.VISIBLE);
+
 
                 if (mRepositoryList != null) {
                     deliverResult(mRepositoryList);
@@ -152,7 +149,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         /* When we finish loading, we want to hide the loading indicator from the user. */
         loading.setVisibility(View.INVISIBLE);
 
-        if (null == data) {
+        //Log.d("onLoadFinished: ", String.valueOf(data));
+        if (data == null) {
             showErrorMessage();
         } else {
             //Clear ListView Old Data
@@ -174,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         dataListView.setVisibility(View.VISIBLE);
     }
 
-    private void showErrorMessage() {
+    public void showErrorMessage() {
         /* First, hide the currently visible data */
         dataListView.setVisibility(View.INVISIBLE);
         /* Then, show the error */
@@ -185,8 +183,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     public void makeGithubSearchQuery() {
         String githubQuery = editText.getText().toString();
-
-        Log.d("test", githubQuery);
 
         Bundle queryBundle = new Bundle();
         queryBundle.putString(GITHUB_QUERY_TAG, githubQuery);

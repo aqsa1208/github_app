@@ -68,18 +68,19 @@ public class NetworkUtils {
             JSONObject json = new JSONObject(jsonResponse);
             JSONArray items = json.getJSONArray("items");
             //Get First 50 Repository
-            //Log.d("json", String.valueOf(items.getJSONObject(0)));
+            Log.d("json", String.valueOf(items.getJSONObject(0)));
             //JSONObject currentRepotest = items.getJSONObject(0);
             //Log.d("current id", currentRepotest.getString("avatar_url"));
 
-            int dataLen = 50;
+            int dataLen = 100;
             if(items.length() < dataLen){
                 dataLen = items.length();
             }
             for(int i = 0 ; i < dataLen ; i++){
                 JSONObject currentRepo = items.getJSONObject(i);
                 String ownerAvatar_url = currentRepo.getJSONObject("owner").getString("avatar_url");
-                //Log.d("ownerAvatar_url", ownerAvatar_url);
+                String repoUrl = currentRepo.getString("html_url");
+                //Log.d("repoUrl", repoUrl);
                 String repoName = currentRepo.getString("name");
                 String repoDesc = currentRepo.getString("description");
                 String repoOwner = currentRepo.getJSONObject("owner").getString("login");
@@ -87,9 +88,8 @@ public class NetworkUtils {
 
                 Log.v("Data","Number " + i);
                 //Create Repository Object
-                RepositoryData repository = new RepositoryData(ownerAvatar_url,repoName,repoDesc,repoOwner,repoStars);
+                RepositoryData repository = new RepositoryData(ownerAvatar_url,repoUrl,repoName,repoDesc,repoOwner,repoStars);
                 //Add This Repository To List
-                Log.d("res", repository.toString());
                 repositoryList.add(repository);
             }
         }

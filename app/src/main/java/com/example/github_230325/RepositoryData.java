@@ -3,6 +3,7 @@ package com.example.github_230325;
 public class RepositoryData {
 
     private String ownerAvatar_url;
+    private String repoUrl;
     private String repoName;
     private String repoDesc;
     private String repoOwner;
@@ -13,8 +14,9 @@ public class RepositoryData {
     private final String repoOwnerStart = "Owner: ";
     private final String repoStarsStart = "Stars Number:";
 
-    public RepositoryData(String ownerAvatar_url, String repoName, String repoDesc, String repoOwner, String repoStars) {
+    public RepositoryData(String ownerAvatar_url,String repoUrl, String repoName, String repoDesc, String repoOwner, String repoStars) {
         this.ownerAvatar_url = ownerAvatar_url;
+        this.repoUrl = repoUrl;
         this.repoName = repoName;
         this.repoDesc = repoDesc;
         this.repoOwner = repoOwner;
@@ -25,40 +27,29 @@ public class RepositoryData {
         return ownerAvatar_url;
     }
 
-    public void setOwnerAvatar_url(String ownerAvatar_url) {
-        this.ownerAvatar_url = ownerAvatar_url;
+    public String getrepoUrl() {
+        return repoUrl;
     }
+
 
     public String getRepoName() {
         return this.repoNameStart + repoName;
     }
 
-    public void setRepoName(String repoName) {
-        this.repoName = repoName;
-    }
 
     public String getRepoDesc() {
         return this.repoDescStart + repoDesc;
     }
 
-    public void setRepoDesc(String repoDesc) {
-        this.repoDesc = repoDesc;
-    }
 
     public String getRepoOwner() {
         return this.repoOwnerStart + repoOwner;
     }
 
-    public void setRepoOwner(String repoOwner) {
-        this.repoOwner = repoOwner;
-    }
 
     public String getRepoStars() {
         return this.repoStarsStart + repoStars;
     }
 
-    public void setRepoStars(String repoStars) {
-        this.repoStars = repoStars;
-    }
 
 }

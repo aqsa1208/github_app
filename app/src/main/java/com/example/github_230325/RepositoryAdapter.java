@@ -1,14 +1,18 @@
 package com.example.github_230325;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,6 +50,7 @@ public class RepositoryAdapter extends ArrayAdapter<RepositoryData> {
         RepositoryData currentRepositoryData = getItem(position);
 
         String ownerAvatar_url = currentRepositoryData.getOwnerAvatar_url();
+        String repoUrl = currentRepositoryData.getrepoUrl();
         repoName.setText(currentRepositoryData.getRepoName());
         repoDesc.setText(currentRepositoryData.getRepoDesc());
         repoOwner.setText(currentRepositoryData.getRepoOwner());
@@ -54,6 +59,21 @@ public class RepositoryAdapter extends ArrayAdapter<RepositoryData> {
         Glide.with(context)
                 .load(ownerAvatar_url)
                 .into(ownerAvatar);
+
+
+        Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_left);
+        view.startAnimation(animation);
+
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(repoUrl));
+                context.startActivity(intent);
+            }
+        });
+
+
 
 
         return view;
